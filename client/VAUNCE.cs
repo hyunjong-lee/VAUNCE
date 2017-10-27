@@ -14,33 +14,37 @@ namespace client
 {
     public partial class VAUNCE : Form
     {
-        MediaPlayer p1 = new MediaPlayer();
-        MediaPlayer p2 = new MediaPlayer();
+        Dictionary<string, MediaPlayer> _bgPlayers = new Dictionary<string, MediaPlayer>();
 
         public VAUNCE()
         {
             InitializeComponent();
-            p1.MediaEnded += P1_MediaEnded;
+            InitializeSounds();
+        }
+
+        private void InitializeSounds()
+        {
+            var keys = new List<string>() { "bg1", "bg2", "die", "jump" };
+            foreach (var key in keys)
+            {
+                _bgPlayers.Add(key, new MediaPlayer());
+                _bgPlayers[key].Open(new Uri(string.Format(@".\Sounds\{0}.wav", key), UriKind.Relative));
+            }
+            _bgPlayers["bg1"].MediaEnded += bg1MediaEnded;
         }
 
         private void btnMusic_Click(object sender, EventArgs e)
         {
-            p2.Open(new Uri(@".\Sounds\bg2.wav", UriKind.Relative));
-            p2.Play();
-            p1.Open(new Uri(@".\Sounds\bg1.wav", UriKind.Relative));
-            p1.Play();
+            _bgPlayers["bg1"].Play();
+            _bgPlayers["bg2"].Play();
         }
 
-        private void P1_MediaEnded(object sender, EventArgs e)
+        private void bg1MediaEnded(object sender, EventArgs e)
         {
-            p1.Position = TimeSpan.Zero;
-            p1.Play();
-            p2.Position = TimeSpan.Zero;
-            p2.Play();
-        }
-
-        private void P2_MediaEnded(object sender, EventArgs e)
-        {
+            _bgPlayers["bg1"].Position = TimeSpan.Zero;
+            _bgPlayers["bg2"].Position = TimeSpan.Zero;
+            _bgPlayers["bg1"].Play();
+            _bgPlayers["bg2"].Play();
         }
     }
 }
