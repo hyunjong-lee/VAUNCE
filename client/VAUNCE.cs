@@ -46,5 +46,17 @@ namespace client
             _bgPlayers["bg1"].Play();
             _bgPlayers["bg2"].Play();
         }
+
+        private void btnJump_Click(object sender, EventArgs e)
+        {
+            _bgPlayers["jump"].Position = TimeSpan.Zero;
+            _bgPlayers["jump"].Play();
+        }
+
+        private void btnDie_Click(object sender, EventArgs e)
+        {
+            _bgPlayers["die"].Position = TimeSpan.Zero;
+            _bgPlayers["die"].Play();
+        }
     }
 }

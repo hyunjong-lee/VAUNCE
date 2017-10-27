@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.btnMusic = new System.Windows.Forms.Button();
+            this.btnJump = new System.Windows.Forms.Button();
+            this.btnDie = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnMusic
@@ -41,12 +43,34 @@
             this.btnMusic.UseVisualStyleBackColor = true;
             this.btnMusic.Click += new System.EventHandler(this.btnMusic_Click);
             // 
+            // btnJump
+            // 
+            this.btnJump.Location = new System.Drawing.Point(868, 41);
+            this.btnJump.Name = "btnJump";
+            this.btnJump.Size = new System.Drawing.Size(75, 23);
+            this.btnJump.TabIndex = 1;
+            this.btnJump.Text = "jump";
+            this.btnJump.UseVisualStyleBackColor = true;
+            this.btnJump.Click += new System.EventHandler(this.btnJump_Click);
+            // 
+            // btnDie
+            // 
+            this.btnDie.Location = new System.Drawing.Point(868, 70);
+            this.btnDie.Name = "btnDie";
+            this.btnDie.Size = new System.Drawing.Size(75, 23);
+            this.btnDie.TabIndex = 2;
+            this.btnDie.Text = "die";
+            this.btnDie.UseVisualStyleBackColor = true;
+            this.btnDie.Click += new System.EventHandler(this.btnDie_Click);
+            // 
             // VAUNCE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(955, 540);
+            this.Controls.Add(this.btnDie);
+            this.Controls.Add(this.btnJump);
             this.Controls.Add(this.btnMusic);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Malgun Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -61,6 +85,8 @@
         #endregion
 
         private System.Windows.Forms.Button btnMusic;
+        private System.Windows.Forms.Button btnJump;
+        private System.Windows.Forms.Button btnDie;
     }
 }
 
