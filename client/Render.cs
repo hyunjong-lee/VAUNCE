@@ -9,16 +9,8 @@ namespace client
 {
     class Render
     {
-        private Dictionary<string, Image> _imageResources;
-
         public Render()
         {
-            _imageResources = new Dictionary<string, Image>();
-            var keys = new List<string>() { "bg", "fish", "slime", "snail" };
-            foreach (var key in keys)
-            {
-                _imageResources.Add(key, Image.FromFile(string.Format(@"Images/{0}.png", key)));
-            }
         }
 
         public void render(Graphics g, GameState state)
@@ -31,7 +23,7 @@ namespace client
 
         protected void renderStaticBackground(Graphics g, GameState state)
         {
-            g.DrawImage(_imageResources["bg"], 0, 0);
+            g.DrawImage(Resources.Images["bg"], 0, 0);
         }
 
         protected void renderDynamicBackground(Graphics g, GameState state)
@@ -40,13 +32,16 @@ namespace client
 
         private void renderMissiles(Graphics g, GameState state)
         {
-            g.DrawImage(_imageResources["fish"], 50, 100);
-            g.DrawImage(_imageResources["slime"], 200, 200);
-            g.DrawImage(_imageResources["snail"], 800, 200);
+            foreach (var missile in state.missiles) renderGameObject(g, missile);
         }
 
+        protected void renderGameObject(Graphics g, GameObject obj)
+        {
+            g.DrawImage(Resources.Images[obj.RID], obj.pos.X, obj.pos.Y);
+        }
         protected void renderAliens(Graphics g, GameState state)
         {
+            foreach (var alien in state.aliens) renderGameObject(g, alien);
         }
     }
 }

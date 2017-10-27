@@ -14,13 +14,16 @@ namespace client
 {
     public partial class VAUNCE : Form
     {
-        Dictionary<string, MediaPlayer> _bgPlayers = new Dictionary<string, MediaPlayer>();
         Render render = new Render();
+        GameState gameState = new GameState();
 
         public VAUNCE()
         {
             InitializeComponent();
-            InitializeSounds();
+
+            Resources.Sounds["bg1"].MediaEnded += bg1MediaEnded;
+            timerRender.Start();
+            playBGM();
         }
 
         private void draw()
@@ -29,52 +32,46 @@ namespace client
             var buffer = gContext.Allocate(renderArea.CreateGraphics(), renderArea.DisplayRectangle);
 
             buffer.Graphics.Clear(System.Drawing.Color.LightSteelBlue);
-            render.render(buffer.Graphics, new GameState());
+            render.render(buffer.Graphics, gameState);
 
             buffer.Render(renderArea.CreateGraphics());
             buffer.Dispose();
         }
 
-        private void InitializeSounds()
+        private void playBGM()
         {
-            var keys = new List<string>() { "bg1", "bg2", "die", "jump" };
-            foreach (var key in keys)
-            {
-                _bgPlayers.Add(key, new MediaPlayer());
-                _bgPlayers[key].Open(new Uri(string.Format(@".\Sounds\{0}.wav", key), UriKind.Relative));
-            }
-            _bgPlayers["bg1"].MediaEnded += bg1MediaEnded;
+            Resources.Sounds["bg1"].Position = TimeSpan.Zero;
+            Resources.Sounds["bg2"].Position = TimeSpan.Zero;
+            Resources.Sounds["bg1"].Play();
+            Resources.Sounds["bg2"].Play();
         }
 
         private void btnMusic_Click(object sender, EventArgs e)
         {
-            _bgPlayers["bg1"].Play();
-            _bgPlayers["bg2"].Play();
+            Resources.Sounds["bg1"].Play();
+            Resources.Sounds["bg2"].Play();
         }
 
         private void bg1MediaEnded(object sender, EventArgs e)
         {
-            _bgPlayers["bg1"].Position = TimeSpan.Zero;
-            _bgPlayers["bg2"].Position = TimeSpan.Zero;
-            _bgPlayers["bg1"].Play();
-            _bgPlayers["bg2"].Play();
-        }
-
-        private void btnJump_Click(object sender, EventArgs e)
-        {
-            _bgPlayers["jump"].Position = TimeSpan.Zero;
-            _bgPlayers["jump"].Play();
+            playBGM();
         }
 
         private void btnDie_Click(object sender, EventArgs e)
         {
-            _bgPlayers["die"].Position = TimeSpan.Zero;
-            _bgPlayers["die"].Play();
+            Resources.Sounds["die"].Position = TimeSpan.Zero;
+            Resources.Sounds["die"].Play();
         }
 
         private void btnDraw_Click(object sender, EventArgs e)
         {
             draw();
+        }
+
+        private void timerRender_Tick(object sender, EventArgs e)
+        {
+            draw();
+            gameState.tick();
         }
     }
 }
