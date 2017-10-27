@@ -73,5 +73,26 @@ namespace client
             draw();
             gameState.tick();
         }
+
+        private void VAUNCE_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Left)
+            {
+                var elem = gameState.aliens[0];
+                elem.pos.X -= 8;
+                if (elem.pos.X <= 0) elem.pos.X = Resources.Boxes["bg"].X;
+            }
+            if (e.KeyCode == Keys.Right)
+            {
+                var elem = gameState.aliens[0];
+                elem.pos.X += 8;
+                if (elem.pos.X >= Resources.Boxes["bg"].X) elem.pos.X = 0;
+            }
+        }
+
+        private void VAUNCE_Load(object sender, EventArgs e)
+        {
+            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+        }
     }
 }

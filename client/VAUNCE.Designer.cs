@@ -29,20 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.btnDie = new System.Windows.Forms.Button();
             this.renderArea = new System.Windows.Forms.Label();
             this.timerRender = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
-            // 
-            // btnDie
-            // 
-            this.btnDie.Location = new System.Drawing.Point(1430, 713);
-            this.btnDie.Name = "btnDie";
-            this.btnDie.Size = new System.Drawing.Size(75, 23);
-            this.btnDie.TabIndex = 2;
-            this.btnDie.Text = "die";
-            this.btnDie.UseVisualStyleBackColor = true;
-            this.btnDie.Click += new System.EventHandler(this.btnDie_Click);
             // 
             // renderArea
             // 
@@ -63,7 +52,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1517, 748);
-            this.Controls.Add(this.btnDie);
             this.Controls.Add(this.renderArea);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Malgun Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -71,12 +59,13 @@
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "VAUNCE";
             this.Text = "VAUNCE";
+            this.Load += new System.EventHandler(this.VAUNCE_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.VAUNCE_KeyDown);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.Button btnDie;
         private System.Windows.Forms.Label renderArea;
         private System.Windows.Forms.Timer timerRender;
     }
