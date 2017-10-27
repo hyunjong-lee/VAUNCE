@@ -31,11 +31,13 @@
             this.btnMusic = new System.Windows.Forms.Button();
             this.btnJump = new System.Windows.Forms.Button();
             this.btnDie = new System.Windows.Forms.Button();
+            this.renderArea = new System.Windows.Forms.Label();
+            this.btnDraw = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnMusic
             // 
-            this.btnMusic.Location = new System.Drawing.Point(868, 12);
+            this.btnMusic.Location = new System.Drawing.Point(1430, 623);
             this.btnMusic.Name = "btnMusic";
             this.btnMusic.Size = new System.Drawing.Size(75, 23);
             this.btnMusic.TabIndex = 0;
@@ -45,7 +47,7 @@
             // 
             // btnJump
             // 
-            this.btnJump.Location = new System.Drawing.Point(868, 41);
+            this.btnJump.Location = new System.Drawing.Point(1430, 652);
             this.btnJump.Name = "btnJump";
             this.btnJump.Size = new System.Drawing.Size(75, 23);
             this.btnJump.TabIndex = 1;
@@ -55,7 +57,7 @@
             // 
             // btnDie
             // 
-            this.btnDie.Location = new System.Drawing.Point(868, 70);
+            this.btnDie.Location = new System.Drawing.Point(1430, 681);
             this.btnDie.Name = "btnDie";
             this.btnDie.Size = new System.Drawing.Size(75, 23);
             this.btnDie.TabIndex = 2;
@@ -63,15 +65,35 @@
             this.btnDie.UseVisualStyleBackColor = true;
             this.btnDie.Click += new System.EventHandler(this.btnDie_Click);
             // 
+            // renderArea
+            // 
+            this.renderArea.BackColor = System.Drawing.Color.White;
+            this.renderArea.Location = new System.Drawing.Point(293, 105);
+            this.renderArea.Name = "renderArea";
+            this.renderArea.Size = new System.Drawing.Size(1024, 512);
+            this.renderArea.TabIndex = 3;
+            // 
+            // btnDraw
+            // 
+            this.btnDraw.Location = new System.Drawing.Point(1430, 710);
+            this.btnDraw.Name = "btnDraw";
+            this.btnDraw.Size = new System.Drawing.Size(75, 23);
+            this.btnDraw.TabIndex = 4;
+            this.btnDraw.Text = "draw";
+            this.btnDraw.UseVisualStyleBackColor = true;
+            this.btnDraw.Click += new System.EventHandler(this.btnDraw_Click);
+            // 
             // VAUNCE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(955, 540);
+            this.BackColor = System.Drawing.Color.Black;
+            this.ClientSize = new System.Drawing.Size(1517, 748);
+            this.Controls.Add(this.btnDraw);
             this.Controls.Add(this.btnDie);
             this.Controls.Add(this.btnJump);
             this.Controls.Add(this.btnMusic);
+            this.Controls.Add(this.renderArea);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Malgun Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -87,6 +109,8 @@
         private System.Windows.Forms.Button btnMusic;
         private System.Windows.Forms.Button btnJump;
         private System.Windows.Forms.Button btnDie;
+        private System.Windows.Forms.Label renderArea;
+        private System.Windows.Forms.Button btnDraw;
     }
 }
 

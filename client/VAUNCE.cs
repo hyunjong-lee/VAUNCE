@@ -15,11 +15,24 @@ namespace client
     public partial class VAUNCE : Form
     {
         Dictionary<string, MediaPlayer> _bgPlayers = new Dictionary<string, MediaPlayer>();
+        Render render = new Render();
 
         public VAUNCE()
         {
             InitializeComponent();
             InitializeSounds();
+        }
+
+        private void draw()
+        {
+            var gContext = BufferedGraphicsManager.Current;
+            var buffer = gContext.Allocate(renderArea.CreateGraphics(), renderArea.DisplayRectangle);
+
+            buffer.Graphics.Clear(System.Drawing.Color.LightSteelBlue);
+            render.render(buffer.Graphics, new GameState());
+
+            buffer.Render(renderArea.CreateGraphics());
+            buffer.Dispose();
         }
 
         private void InitializeSounds()
@@ -57,6 +70,11 @@ namespace client
         {
             _bgPlayers["die"].Position = TimeSpan.Zero;
             _bgPlayers["die"].Play();
+        }
+
+        private void btnDraw_Click(object sender, EventArgs e)
+        {
+            draw();
         }
     }
 }
