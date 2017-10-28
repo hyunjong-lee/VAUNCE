@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,7 +20,6 @@ namespace client
     {
         Render render = new Render();
         GameState gameState = new GameState();
-        HttpClient httpReq = new HttpClient();
 
         public VAUNCE()
         {
@@ -78,6 +78,7 @@ namespace client
 
         private void fetchStatus()
         {
+            HttpClient httpReq = new HttpClient();
             var values = new Dictionary<string, string> { };
             var content = new FormUrlEncodedContent(values);
             var response = httpReq.PostAsync("http://192.168.219.112:7788/vaunce/get_state", content).Result;
@@ -100,11 +101,31 @@ namespace client
             {"direction": "down", "name": "nick", "best": 50, "pos": [521.9, 201.1]}], 
             "missiles": [], "best_score": ["nick", 50]}}
             */
-            Console.Out.WriteLine(elems.data);
+            // Console.Out.WriteLine(elems.data);
+        }
+
+        private void sendStatus()
+        {
+            // {"direction": "up", "name": "peter", "best": 5}
+
+            var alien = gameState.aliens[0];
+            alien.name = "test";
+            dynamic payload = new System.Dynamic.ExpandoObject();
+            payload.name = alien.name;
+            payload.direction = alien.direction;
+            payload.pos = (new List<float>() { alien.pos.X, alien.pos.Y }).ToArray();
+            payload.best = gameState.bestTime.Seconds * 1000 + gameState.bestTime.Milliseconds;
+            var body = JsonConvert.SerializeObject(payload);
+            //Console.Out.WriteLine(body);
+
+            HttpClient httpReq = new HttpClient();
+            var httpContent = new StringContent(body, Encoding.UTF8, "application/json");
+            var response = httpReq.PostAsync("http://192.168.219.112:7788/vaunce/update_alien", httpContent).Result;
         }
 
         private void timerRender_Tick(object sender, EventArgs e)
         {
+            sendStatus();
             fetchStatus();
             draw();
             gameState.tick();
