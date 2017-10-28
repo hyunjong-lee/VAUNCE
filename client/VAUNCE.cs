@@ -27,6 +27,7 @@ namespace client
 
             Resources.Sounds["bg1"].MediaEnded += bg1MediaEnded;
             timerRender.Start();
+            timerTCP.Start();
             playBGM();
         }
 
@@ -81,7 +82,7 @@ namespace client
             HttpClient httpReq = new HttpClient();
             var values = new Dictionary<string, string> { };
             var content = new FormUrlEncodedContent(values);
-            var response = httpReq.PostAsync("http://192.168.219.112:7788/vaunce/get_state", content).Result;
+            var response = httpReq.PostAsync("http://192.168.219.111:7788/vaunce/get_state", content).Result;
             if (!response.IsSuccessStatusCode) return;
 
             var cont = response.Content;
@@ -120,13 +121,11 @@ namespace client
 
             HttpClient httpReq = new HttpClient();
             var httpContent = new StringContent(body, Encoding.UTF8, "application/json");
-            var response = httpReq.PostAsync("http://192.168.219.112:7788/vaunce/update_alien", httpContent).Result;
+            var response = httpReq.PostAsync("http://192.168.219.111:7788/vaunce/update_alien", httpContent).Result;
         }
 
         private void timerRender_Tick(object sender, EventArgs e)
         {
-            sendStatus();
-            fetchStatus();
             draw();
             gameState.tick();
         }
@@ -150,6 +149,12 @@ namespace client
         private void VAUNCE_Load(object sender, EventArgs e)
         {
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+        }
+
+        private void timerTCP_Tick(object sender, EventArgs e)
+        {
+            sendStatus();
+            fetchStatus();
         }
     }
 }

@@ -33,6 +33,7 @@
             this.timerRender = new System.Windows.Forms.Timer(this.components);
             this.labelCurrentTime = new System.Windows.Forms.Label();
             this.labelBestTime = new System.Windows.Forms.Label();
+            this.timerTCP = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // renderArea
@@ -72,6 +73,11 @@
             this.labelBestTime.Text = "Best Time\r\n0:00";
             this.labelBestTime.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // timerTCP
+            // 
+            this.timerTCP.Interval = 200;
+            this.timerTCP.Tick += new System.EventHandler(this.timerTCP_Tick);
+            // 
             // VAUNCE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -100,6 +106,7 @@
         private System.Windows.Forms.Timer timerRender;
         private System.Windows.Forms.Label labelCurrentTime;
         private System.Windows.Forms.Label labelBestTime;
+        private System.Windows.Forms.Timer timerTCP;
     }
 }
 
