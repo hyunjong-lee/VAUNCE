@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace client
 {
@@ -19,8 +20,7 @@ namespace client
 
         public string name;
         public string direction;
-        public Point pos;
-        public bool isAlive = true;
+        public PointF pos;
 
         public string RID
         {
@@ -33,11 +33,27 @@ namespace client
 
     public class Alien : GameObject
     {
-        public Alien(int x, int y, string direction) : base("alien",
-            x - Resources.Boxes["alien_up"].X / 2,
-            y - Resources.Boxes["alien_up"].Y / 2,
-            "up")
+        float accel = 0.0f;
+        public DateTime lastAlive;
+        int sx;
+        int sy;
+        string sd;
+
+        public Alien(int x, int y, string direction) : 
+            base("alien", x - Resources.Boxes["alien_up"].X / 2, y - Resources.Boxes["alien_up"].Y / 2, "up")
         {
+            sx = x;
+            sy = y;
+            sd = direction;
+            spawn();
+        }
+
+        void spawn()
+        {
+            pos.X = sx;
+            pos.Y = sy;
+            direction = sd;
+            lastAlive = DateTime.Now;
         }
 
         void jump()
@@ -46,20 +62,27 @@ namespace client
             else direction = "down";
             Resources.Sounds["jump"].Position = TimeSpan.Zero;
             Resources.Sounds["jump"].Play();
+            accel = 0.0f;
         }
 
         public void tick()
         {
             if (direction == "up")
             {
-                pos.Y -= 10;
+                pos.Y -= (17.3f + accel);
                 if (pos.Y <= 0) jump();
+            }
+            else if(direction == "down")
+            {
+                pos.Y += (17.3f + accel);
+                if (pos.Y >= Resources.Boxes["bg"].Y - Resources.Boxes[RID].Y) jump();
             }
             else
             {
-                pos.Y += 10;
-                if (pos.Y >= GameState.height - Resources.Boxes[RID].Y) jump();
+                spawn();
             }
+
+            accel += 1.0f;
         }
     }
 
@@ -79,13 +102,13 @@ namespace client
         {
             if (direction == "left")
             {
-                pos.X -= 10;
+                pos.X -= 17.3f;
                 if (pos.X + Resources.Boxes[RID].X <= 0) flip();
             }
             else
             {
-                pos.X += 10;
-                if (pos.X >= GameState.width + Resources.Boxes[RID].X) flip();
+                pos.X += 17.3f;
+                if (pos.X >= Resources.Boxes["bg"].X + Resources.Boxes[RID].X) flip();
             }
         }
 
@@ -93,20 +116,43 @@ namespace client
 
     public class GameState
     {
-        public static readonly int width = 1000;
-        public static readonly int height = 400;
-
         public List<Alien> aliens = new List<Alien>();
         internal List<GameObject> missiles = new List<GameObject>();
+        public TimeSpan bestTime = TimeSpan.Zero;
 
         public GameState()
         {
-            aliens.Add(new Alien(width / 2, height / 2, "up"));
-            missiles.Add(new Missile("fish", width, height / 2, "left"));
+            aliens.Add(new Alien(Resources.Boxes["bg"].X / 2, Resources.Boxes["bg"].Y / 2, "up"));
+            missiles.Add(new Missile("fish", Resources.Boxes["bg"].X, Resources.Boxes["bg"].Y / 2, "left"));
         }
 
         protected void checkCollision()
         {
+            foreach (var alien in aliens)
+            {
+                if (alien.direction == "die") continue;
+
+                var ax = alien.pos.X;
+                var ay = alien.pos.Y;
+                foreach (var missile in missiles)
+                {
+                    var mx = missile.pos.X;
+                    var my = missile.pos.Y;
+                    var span = 15;
+
+                    if (ax + Resources.Boxes[alien.RID].X <= mx + span) continue;
+                    if (ay + Resources.Boxes[alien.RID].Y <= my + span) continue;
+
+                    if (mx + Resources.Boxes[missile.RID].X + span <= ax) continue;
+                    if (my + Resources.Boxes[missile.RID].Y + span <= ay) continue;
+
+                    Resources.Sounds["die"].Position = TimeSpan.Zero;
+                    Resources.Sounds["die"].Play();
+                    alien.direction = "die";
+                    var diff = DateTime.Now - alien.lastAlive;
+                    bestTime = (bestTime > diff) ? bestTime : diff;
+                }
+            }
         }
 
         public void tick()

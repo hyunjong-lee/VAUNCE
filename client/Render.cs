@@ -39,6 +39,7 @@ namespace client
         {
             g.DrawImage(Resources.Images[obj.RID], obj.pos.X, obj.pos.Y);
         }
+
         protected void renderAliens(Graphics g, GameState state)
         {
             foreach (var alien in state.aliens) renderGameObject(g, alien);

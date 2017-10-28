@@ -36,6 +36,10 @@ namespace client
 
             buffer.Render(renderArea.CreateGraphics());
             buffer.Dispose();
+
+            var diff = DateTime.Now - gameState.aliens[0].lastAlive;
+            labelCurrentTime.Text = string.Format("Current Time\n{0}:{1:00}", diff.Seconds, diff.Milliseconds / 10);
+            labelBestTime.Text = string.Format("Best Time\n{0}:{1:00}", gameState.bestTime.Seconds, gameState.bestTime.Milliseconds / 10);
         }
 
         private void playBGM()
@@ -79,13 +83,13 @@ namespace client
             if (e.KeyCode == Keys.Left)
             {
                 var elem = gameState.aliens[0];
-                elem.pos.X -= 8;
+                elem.pos.X -= 17.7f;
                 if (elem.pos.X <= 0) elem.pos.X = Resources.Boxes["bg"].X;
             }
-            if (e.KeyCode == Keys.Right)
+            else if (e.KeyCode == Keys.Right)
             {
                 var elem = gameState.aliens[0];
-                elem.pos.X += 8;
+                elem.pos.X += 17.7f;
                 if (elem.pos.X >= Resources.Boxes["bg"].X) elem.pos.X = 0;
             }
         }

@@ -32,14 +32,18 @@ namespace client
 
         private static void InitializeImages()
         {
-            var keys = new List<string>() { "bg", "fish_left", "fish_right", "slime_left", "snail_left", "alien_up", "alien_down" };
+            var keys = new List<string>() { "bg",
+                "fish_left", "fish_right",
+                "slime_left", "slime_right",
+                "snail_left", "snail_right",
+                "alien_up", "alien_down", "alien_die" };
             foreach (var key in keys)
             {
                 var image = Image.FromFile(string.Format(@"Images/{0}.png", key));
                 Images.Add(key, image);
                 Boxes.Add(key, new Point(image.Width, image.Height));
             }
-            Boxes["bg"] = new Point(1000, 400);
+            Boxes["bg"] = new Point(1000, 500);
         }
     }
 }
