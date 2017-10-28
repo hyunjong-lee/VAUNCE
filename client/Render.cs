@@ -17,8 +17,8 @@ namespace client
         {
             renderStaticBackground(g, state);
             renderDynamicBackground(g, state);
-            renderMissiles(g, state);
             renderGhosts(g, state);
+            renderMissiles(g, state);
             renderAliens(g, state);
         }
 

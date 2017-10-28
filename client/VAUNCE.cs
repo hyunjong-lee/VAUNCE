@@ -20,10 +20,13 @@ namespace client
     {
         Render render = new Render();
         GameState gameState = new GameState();
+        string myName = "";
 
         public VAUNCE()
         {
             InitializeComponent();
+
+            myName = Microsoft.VisualBasic.Interaction.InputBox("name?", "give me your name", "");
 
             Resources.Sounds["bg1"].MediaEnded += bg1MediaEnded;
             timerRender.Start();
@@ -110,7 +113,6 @@ namespace client
             // {"direction": "up", "name": "peter", "best": 5}
 
             var alien = gameState.aliens[0];
-            alien.name = "test";
             dynamic payload = new System.Dynamic.ExpandoObject();
             payload.name = alien.name;
             payload.direction = alien.direction;
@@ -149,6 +151,10 @@ namespace client
         private void VAUNCE_Load(object sender, EventArgs e)
         {
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            var alien = new Alien(Resources.Boxes["bg"].X / 2, Resources.Boxes["bg"].Y / 2, "up");
+            alien.name = myName;
+            gameState.aliens.Add(alien);
+            gameState.missiles.Add(new Missile("fish", Resources.Boxes["bg"].X, Resources.Boxes["bg"].Y / 2, "left"));
         }
 
         private void timerTCP_Tick(object sender, EventArgs e)

@@ -124,8 +124,7 @@ namespace client
 
         public GameState()
         {
-            aliens.Add(new Alien(Resources.Boxes["bg"].X / 2, Resources.Boxes["bg"].Y / 2, "up"));
-            missiles.Add(new Missile("fish", Resources.Boxes["bg"].X, Resources.Boxes["bg"].Y / 2, "left"));
+
         }
 
         protected void checkCollision()
