@@ -18,6 +18,7 @@ namespace client
             renderStaticBackground(g, state);
             renderDynamicBackground(g, state);
             renderMissiles(g, state);
+            renderGhosts(g, state);
             renderAliens(g, state);
         }
 
@@ -44,5 +45,11 @@ namespace client
         {
             foreach (var alien in state.aliens) renderGameObject(g, alien);
         }
+
+        protected void renderGhosts(Graphics g, GameState state)
+        {
+            foreach (var alien in state.ghosts) renderGameObject(g, alien);
+        }
+
     }
 }

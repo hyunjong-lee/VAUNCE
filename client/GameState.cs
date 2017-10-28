@@ -10,15 +10,16 @@ namespace client
 {
     public class GameObject
     {
-        public GameObject(string name, int x, int y, string direction)
+        public GameObject(string rname, float x, float y, string direction)
         {
-            this.name = name;
+            this.resourceName = rname;
             pos.X = x;
             pos.Y = y;
             this.direction = direction;
         }
 
         public string name;
+        public string resourceName;
         public string direction;
         public PointF pos;
 
@@ -26,7 +27,7 @@ namespace client
         {
             get
             {
-                return string.Format("{0}_{1}", name, direction);
+                return string.Format("{0}_{1}", resourceName, direction);
             }
         }
     }
@@ -35,11 +36,11 @@ namespace client
     {
         float accel = 0.0f;
         public DateTime lastAlive;
-        int sx;
-        int sy;
+        float sx;
+        float sy;
         string sd;
 
-        public Alien(int x, int y, string direction) : 
+        public Alien(float x, float y, string direction) : 
             base("alien", x - Resources.Boxes["alien_up"].X / 2, y - Resources.Boxes["alien_up"].Y / 2, "up")
         {
             sx = x;
@@ -117,6 +118,7 @@ namespace client
     public class GameState
     {
         public List<Alien> aliens = new List<Alien>();
+        public List<Alien> ghosts = new List<Alien>();
         internal List<GameObject> missiles = new List<GameObject>();
         public TimeSpan bestTime = TimeSpan.Zero;
 

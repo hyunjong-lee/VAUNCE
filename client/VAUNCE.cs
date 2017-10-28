@@ -5,8 +5,11 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Media;
+using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using System.Windows.Media;
 
@@ -16,6 +19,7 @@ namespace client
     {
         Render render = new Render();
         GameState gameState = new GameState();
+        HttpClient httpReq = new HttpClient();
 
         public VAUNCE()
         {
@@ -72,8 +76,36 @@ namespace client
             draw();
         }
 
+        private void fetchStatus()
+        {
+            var values = new Dictionary<string, string> { };
+            var content = new FormUrlEncodedContent(values);
+            var response = httpReq.PostAsync("http://192.168.219.112:7788/vaunce/get_state", content).Result;
+            if (!response.IsSuccessStatusCode) return;
+
+            var cont = response.Content;
+            var text = cont.ReadAsStringAsync().Result;
+
+            gameState.ghosts.Clear();
+            dynamic elems = Newtonsoft.Json.JsonConvert.DeserializeObject(text);
+            foreach (var elem in elems.data.aliens)
+            {
+                var alien = new Alien((float)elem.pos[0], (float)elem.pos[1], (string)elem.direction);
+                alien.name = elem.name;
+                gameState.ghosts.Add(alien);
+            }
+            /*
+            {"status": 200,
+            "data": {"aliens": [{"direction": "up", "name": "peter", "best": 5, "pos": [52.9, 101.1]}, 
+            {"direction": "down", "name": "nick", "best": 50, "pos": [521.9, 201.1]}], 
+            "missiles": [], "best_score": ["nick", 50]}}
+            */
+            Console.Out.WriteLine(elems.data);
+        }
+
         private void timerRender_Tick(object sender, EventArgs e)
         {
+            fetchStatus();
             draw();
             gameState.tick();
         }
