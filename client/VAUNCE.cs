@@ -21,6 +21,8 @@ namespace client
         Render render = new Render();
         GameState gameState = new GameState();
         string myName = "";
+        int bestScore = 0;
+        string bestName = "";
 
         public VAUNCE()
         {
@@ -46,8 +48,9 @@ namespace client
             buffer.Dispose();
 
             var diff = DateTime.Now - gameState.aliens[0].lastAlive;
-            labelCurrentTime.Text = string.Format("Current Time\n{0}:{1:00}", diff.Seconds, diff.Milliseconds / 10);
-            labelBestTime.Text = string.Format("Best Time\n{0}:{1:00}", gameState.bestTime.Seconds, gameState.bestTime.Milliseconds / 10);
+            labelCurrentTime.Text = string.Format("Current Time\n{0}:{1:00}", diff.Minutes * 60 + diff.Seconds, diff.Milliseconds / 10);
+            labelBestTime.Text = string.Format("Best Time\n{0}:{1:00}", gameState.bestTime.Minutes * 60 + gameState.bestTime.Seconds, gameState.bestTime.Milliseconds / 10);
+            labelBestUser.Text = string.Format("Best User: {0}\n{1}:{2:00}", bestName, bestScore / 1000, (bestScore % 1000) / 10);
         }
 
         private void playBGM()
@@ -98,6 +101,12 @@ namespace client
                 var alien = new Alien((float)elem.pos[0], (float)elem.pos[1], (string)elem.direction);
                 alien.name = elem.name;
                 gameState.ghosts.Add(alien);
+                var best = (int)elem.best;
+                if (bestScore <= best)
+                {
+                    bestScore = best;
+                    bestName = (string)elem.name;
+                }
             }
             /*
             {"status": 200,
@@ -117,7 +126,7 @@ namespace client
             payload.name = alien.name;
             payload.direction = alien.direction;
             payload.pos = (new List<float>() { alien.pos.X, alien.pos.Y }).ToArray();
-            payload.best = gameState.bestTime.Seconds * 1000 + gameState.bestTime.Milliseconds;
+            payload.best = gameState.bestTime.Minutes * 60 * 1000 + gameState.bestTime.Seconds * 1000 + gameState.bestTime.Milliseconds;
             var body = JsonConvert.SerializeObject(payload);
             //Console.Out.WriteLine(body);
 

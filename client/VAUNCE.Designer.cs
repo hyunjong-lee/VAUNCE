@@ -34,6 +34,7 @@
             this.labelCurrentTime = new System.Windows.Forms.Label();
             this.labelBestTime = new System.Windows.Forms.Label();
             this.timerTCP = new System.Windows.Forms.Timer(this.components);
+            this.labelBestUser = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // renderArea
@@ -78,12 +79,25 @@
             this.timerTCP.Interval = 200;
             this.timerTCP.Tick += new System.EventHandler(this.timerTCP_Tick);
             // 
+            // labelBestUser
+            // 
+            this.labelBestUser.AutoSize = true;
+            this.labelBestUser.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelBestUser.ForeColor = System.Drawing.Color.Red;
+            this.labelBestUser.Location = new System.Drawing.Point(483, 24);
+            this.labelBestUser.Name = "labelBestUser";
+            this.labelBestUser.Size = new System.Drawing.Size(100, 44);
+            this.labelBestUser.TabIndex = 6;
+            this.labelBestUser.Text = "Best Time\r\n0:00";
+            this.labelBestUser.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // VAUNCE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1094, 616);
+            this.Controls.Add(this.labelBestUser);
             this.Controls.Add(this.labelBestTime);
             this.Controls.Add(this.labelCurrentTime);
             this.Controls.Add(this.renderArea);
@@ -107,6 +121,7 @@
         private System.Windows.Forms.Label labelCurrentTime;
         private System.Windows.Forms.Label labelBestTime;
         private System.Windows.Forms.Timer timerTCP;
+        private System.Windows.Forms.Label labelBestUser;
     }
 }
 
